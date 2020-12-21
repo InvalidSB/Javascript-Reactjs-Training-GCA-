@@ -1,0 +1,341 @@
+All the Projects are placed in this repository.
+https://github.com/InvalidSB/Javascript-Reactjs-Training-GCA-/tree/master
+
+IF you want to see the Output of those project directly ,
+Please Check the AsignmentSS folder out there...
+and open the corresponding image. !!!!!
+
+--------------------------------------------------
+#CIRCUMfERENCE CALCULATOR
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Circumference Calc</title>
+</head>
+<style>
+    body{
+        background-color: rgb(210, 232, 252);
+        padding: 8%;
+        align-items: center;
+        justify-content: center;
+    }
+    .container{
+       
+        background-color: white;
+        padding: 50px;
+        border-radius: 20px;
+        
+
+    }
+    #input{
+        border:none;
+        outline:none;
+        width: 400px;
+        font-size: 25px;
+        background-color: transparent;
+        border-bottom: 3px solid black;
+        margin:20px
+    }
+    button{
+    border:none;
+        margin:20px;
+    outline: none;
+    padding: 10px 20px;
+    font-size: 25px;
+    background-color: black;
+    color:white
+}
+    #result{
+        font-family: 'Courier New', Courier, monospace;
+        font-size: 30px;
+    }
+    h1{
+        text-align: center;
+        font-family: 'Courier New', Courier, monospace;
+        font-size: 50px;
+    }
+</style>
+<body>
+    <h1>Circumference Calculator</h1>
+    <div class="container">
+        <input type="text" placeholder="Enter the Radius Value" id="input"><br>
+        <button id ='btn'>Click to Calculate</button><br>
+        <div id="result"></div>
+    </div>
+</body>
+<script>
+
+    inputVal = document.getElementById('input');
+    console.log(inputVal.value)
+    var btn = document.getElementById('btn');
+
+    btn.addEventListener('click',()=>{Calc(inputVal.value)})
+
+    function Calc(inputVal){
+        console.log("hunxa hunxa gar na gar")
+        const PI = 3.14
+
+        var r= inputVal
+        var Result= 2*PI*r
+        console.log(Result)
+        document.getElementById('result').innerHTML=`<h1>The Circumference of Circle is ${Result} </h1>`
+    }
+</script>
+</html>
+
+
+
+
+
+-------------------------------------------------
+
+
+
+#DIGITAL CLOCK
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital Clock in JS</title>
+</head>
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Monoton&display=swap');
+    body {
+  background-color: #03fafa;
+  align-items: center;
+  justify-content: center;
+  padding: 180px 20px;
+}
+
+#container {
+  color: rgb(5, 5, 5);
+  font-size: 120px;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 30px;
+  font-family: 'Monoton', cursive;
+  
+}
+button{
+    border:none;
+    outline: none;
+    padding: 10px 20px;
+    font-size: 25px;
+    background-color: black;
+    color:white
+}
+h1{
+    font-size: 50px;
+    text-align: center;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+</style>
+<body>
+    <h1 id="h1">The current time is</h1>
+    <div id="container"> <button id="btn">Click me to see the time</button></div>
+   
+</body>
+
+<script>
+document.getElementById('h1').style.display="none";
+
+btn= document.getElementById('btn');
+
+btn.addEventListener('click',currentTime);
+
+
+function currentTime() {
+    document.getElementById('h1').style.display="block";
+
+    // btn.style.display="none"
+  var date = new Date(); 
+  var hour = date.getHours();
+  var min = date.getMinutes();
+  var sec = date.getSeconds();
+  var kun = "AM";
+  kun = (hour >= 12) ? "PM" : "AM"; 
+  hour = (hour == 0) ? 12 : ((hour > 12) ? (hour - 12): hour); 
+  hour = updateTime(hour);
+  min = updateTime(min);
+  sec = updateTime(sec);
+  document.getElementById("container").innerText = hour + " : " + min + " : " + sec + "   " +" "+ kun; 
+  document.getElementById("container").style.border='5px solid black' 
+    var t = setTimeout(currentTime, 1000);
+}
+
+function updateTime(i) { 
+  if (i < 10) {
+    return "0" + i;
+  }
+  else {
+    return i;
+  }
+}
+
+</script>
+</html>
+
+
+
+
+
+-------------------------------------------------
+
+
+#PLAY WITH ARRAY
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Playing with Array </title>
+</head>
+<body>
+    <h1 id="check">Check the console.</h1>
+</body>
+<script>
+    console.log('Array is Fun');
+    console.log("Simply an Array")
+    var favouritePlace=  ["Biratnagar", "Lalitpur", "Patan", "Kathmandu","Pokhara","Palpa"]
+    console.log(favouritePlace)
+    console.log("this is an array with length")
+    console.log(favouritePlace.length)
+    console.log("adding two more places on it")
+    favouritePlace.push('Chitwan',"Parbat")
+    console.log(favouritePlace)
+    console.log("Sorted Array /acc to Alphabet")
+    favouritePlace.sort()
+    console.log(favouritePlace.length);
+    console.log(favouritePlace)
+    var favouritePlace=  ["Biratnagar", "Lalitpur", "Patan", "Kathmandu","Pokhara","Palpa"]
+    console.log("removing Kathmandu")
+    favouritePlace.splice(3,1)//this or
+    delete favouritePlace[2]//this
+    console.log(favouritePlace)
+</script>
+</html>
+
+
+
+
+
+------------------------------------------------
+
+
+#TIP CALCULATOR
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tip Calculator</title>
+</head>
+<style>
+    body{
+        background-color: black;
+        padding: 10px;
+        font-family: 'Courier New', Courier, monospace;
+    }
+    .container{
+        width: 50%;
+        margin: auto;
+        border-radius: 30px;
+        align-items: center;
+        justify-content: center;
+        background-color: rgb(3, 47, 85);
+        padding:50px ;
+        text-align: center;
+    }
+    label{
+        font-size: 40px;
+    }
+    input{
+        height: 40px;
+    }
+    h1{
+        color: white;
+        text-align: center;
+        font-size: 40px;
+    }
+    p{
+        font-family: Arial, Helvetica, sans-serif;
+        letter-spacing: 3px;
+    }
+    #total,#tipmoney{
+        color: black;
+    }
+</style>
+<body>
+    <h1>Tip Calculator</h1>
+    <div class="container">
+        <label>Coffee</label><br>
+        <input type="text" id="one"><br>
+        <label>Bread</label><br>
+        <input type="text" id="two"><br>
+        <label>Milk Tea</label><br>
+        <input type="text" id="three"><br>
+        <label>Water</label><br>
+        <input type="text" id="four"><br><br>
+        <button id="btn1">Submit</button><br>
+        <div id="total">
+
+        </div><br>
+        <p>Tip % ,you want to give..</p>
+        <input type="text" id="five" placeholder="in percentage...."><br>
+        <button id="btn2">Tip money ?</button><br>
+        <div id="tipmoney"></div>
+    </div>
+</body>
+<script>
+    one = document.getElementById('one')
+    var two = document.getElementById('two')
+    var three = document.getElementById('three')
+    var four = document.getElementById('four')
+
+    clickedbtn = document.getElementById('btn1')
+
+    
+    clickedbtn.addEventListener('click',()=>{
+
+        var total = parseInt(one.value) +parseInt(two.value) +parseFloat(three.value)+parseFloat(four.value);
+        console.log(total)
+        localStorage.setItem('value',total)
+        document.getElementById('total').innerHTML=`<h1>The Total amount is Rs.${total}</h1>`
+
+    });
+        var total = localStorage.getItem('value')
+
+    var five = document.getElementById('five')
+    calcbtn = document.getElementById('btn2')
+
+    calcbtn.addEventListener('click',()=>{
+        const factor = total/100;
+
+        var money  = factor*parseInt(five.value)
+        console.log(money)
+        document.getElementById('tipmoney').innerHTML=`<h1>The Total tip to give is Rs.${money}</h1>`
+        localStorage.clear()
+
+});
+window.onload(
+    one.value="",
+    two.value="",
+    three.value="",
+    four.value="",
+    five.value="",
+)
+
+
+
+
+</script>
+</html>
