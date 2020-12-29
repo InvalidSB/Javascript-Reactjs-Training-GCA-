@@ -2,85 +2,102 @@ All the Projects are placed in this repository.
 https://github.com/InvalidSB/Javascript-Reactjs-Training-GCA-/tree/master
 
 IF you want to see the Output of those project directly ,
-Please Check the 2AsignmentSS folder out there...
+Please Check the 3AsignmentSS folder out there...
 and open the corresponding image. !!!!!
 
 
 
-//Weather application in react js
-//User can search the place to find the current temperature 
-//The code of App.js and Package.json file are below rest of files are as usual to initial fileDirectory;;
+//React js ToDoApp +Material UI and firebase for storage.
+//User can add his work to do ,it get saved with coresponding date.
+//user can also modify and delete his todos work.
+
+
+//The files below are from same directory(src folder) and rest of folders/files are as same as default .
 
 
 #App.js ---------------------
 
-import React, { useState } from 'react';
-const api = {
-  key: "040a79f08ee2480537dabb1b24196a6e",
-  base: "https://api.openweathermap.org/data/2.5/"
-}
+import React, { useState } from "react";
+import "./App.css";
+import { TextField, Button } from "@material-ui/core";
+import moment from "moment";
+import firebase from "firebase";
+import ListTodo from "./ListTodo";
 
-function App() {
-  const [query, setQuery] = useState('');
-  const [weather, setWeather] = useState({});
+export default function App() {
+  const [value, setValue] = useState();
+  // const [time, setTime] = useState("");
+  // const [todoValue, setTodoValue] = useState("");
 
-  const search = evt => {
-    if (evt.key === "Enter") {
-      fetch(`${api.base}weather?q=${query}&units=metric&APPID=${api.key}`)
-        .then(res => res.json())
-        .then(result => {
-          setWeather(result);
-          setQuery('');
-          console.log(result);
-        });
-    }
+  const addTodo = (event) => {
+    event.preventDefault();
+
+    // setTodoValue(value);
+    // setTime(moment().format("MMMM Do YYYY, h:mm:ss a"));
+
+    // for firebase
+
+    const firestore = firebase.firestore();
+
+    firestore
+      .collection("todo")
+      .add({
+        todo: value,
+        date: moment().format("MMMM Do YYYY, h:mm:ss a"),
+      })
+      .then(() => {
+        console.log("Todo Added");
+        window.location.reload();
+      });
+  };
+
+  const textChange = (event) => {
+    setValue(event.target.value);
+  };
+
+  // firebase Configuration for todoapp
+  var firebaseConfig = {
+    apiKey: "AIzaSyAtiS7prQzYl2fr_KNlvzLl-FZPTyUTNCE",
+    authDomain: "todoapp-react-63b26.firebaseapp.com",
+    projectId: "todoapp-react-63b26",
+    storageBucket: "todoapp-react-63b26.appspot.com",
+    messagingSenderId: "624975785412",
+    appId: "1:624975785412:web:45a8a0f18e6f9a54d78891",
+    measurementId: "G-BFCHJCLKNQ",
+  };
+  // Initialize Firebase
+  if (!firebase.apps.length) {
+    firebase.initializeApp(firebaseConfig);
   }
-
-  const dateBuilder = (d) => {
-    let months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-    let days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-
-    let day = days[d.getDay()];
-    let date = d.getDate();
-    let month = months[d.getMonth()];
-    let year = d.getFullYear();
-
-    return `${day} ${date} ${month} ${year}`
-  }
-
   return (
-    <div className={(typeof weather.main != "undefined") ? ((weather.main.temp > 22) ? 'app warm' :((weather.main.temp > 18) ? 'app mid' : 'app')) : 'app'}>
-      <main className="major">
-        <div className="search-box">
-          <input 
-            type="text"
-            className="search-bar"
-            placeholder="Search..."
-            onChange={e => setQuery(e.target.value)}
-            value={query}
-            onKeyPress={search}
-          />
-        </div>
-        {(typeof weather.main != "undefined") ? (
-
-        <div class="card  text-white">
-          <div class="card-img-overlay">
-            <h5 class="card-title">{weather.weather[0].main}</h5>
-            <p class="card-text">The current temprature of {weather.name}, {weather.sys.country} is about :-</p>
-            <h1 className="value"> {Math.round(weather.main.temp)}°c</h1>
-            <p class="date">{dateBuilder(new Date())}</p>
-
-          </div>
-            
-        </div>
-
-        ) : ('')}
-      </main>
+    <>
+    <h1 className="heading">Todo App</h1>
+    <div className="todoApp">
+      <form>
+        <TextField
+          id="filled-size-small"
+          value={value}
+          placeholder="Add a Todo"
+          variant="outlined"
+          size="small"
+          onChange={textChange}
+        />
+        &nbsp;&nbsp;&nbsp;
+        <Button
+          onClick={addTodo}
+          variant="contained"
+          color="secondary"
+          size="large"
+        >
+          Add
+        </Button>
+      </form>
+      <br />
+      <ListTodo />
     </div>
+    </>
   );
 }
-
-export default App;
 
 
 
@@ -88,18 +105,22 @@ export default App;
 
 #Package.json --------------------
 
-
 {
-  "name": "weather-react",
+  "name": "todoappreact",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@testing-library/jest-dom": "^4.2.4",
-    "@testing-library/react": "^9.3.2",
-    "@testing-library/user-event": "^7.1.2",
-    "react": "^16.12.0",
-    "react-dom": "^16.12.0",
-    "react-scripts": "^3.4.0"
+    "@material-ui/core": "^4.11.2",
+    "@material-ui/icons": "^4.11.2",
+    "@testing-library/jest-dom": "^5.11.6",
+    "@testing-library/react": "^11.2.2",
+    "@testing-library/user-event": "^12.6.0",
+    "firebase": "^8.2.1",
+    "moment": "^2.29.1",
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1",
+    "react-scripts": "4.0.1",
+    "web-vitals": "^0.2.4"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -108,7 +129,10 @@ export default App;
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
-    "extends": "react-app"
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
   },
   "browserslist": {
     "production": [
@@ -121,13 +145,280 @@ export default App;
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "resolutions": {
-    "react-dev-utils": "10.1.0"
   }
 }
 
 
+
+
+
+
+#ListTodo.js
+
+import React, { useEffect, useState } from "react";
+import firebase from "firebase";
+import {
+  List,
+  ListItem,
+  ListItemAvatar,
+  Avatar,
+  ListItemText,
+  Grid,
+} from "@material-ui/core";
+import TodayIcon from "@material-ui/icons/Today";
+import DeleteIcon from "@material-ui/icons/Delete";
+import EditIcon from "@material-ui/icons/Edit";
+import UpdateData from "./UpdateData";
+
+export default function ListTodo() {
+  const [allTodos, setAllToDos] = useState([]);
+  const [loaded, setLoaded] = useState(false);
+  const [isModalOpen, setModalOpen] = useState(false);
+
+  const [id, setId] = useState("");
+  const [tododata, setTododata] = useState("");
+  const [date, setDate] = useState("");
+
+  const getData = async () => {
+    const dataReceived = await firebase
+      .firestore()
+      .collection("todo")
+      .orderBy("date", "desc")
+      .get();
+    return dataReceived.docs.map((doc) => doc);
+  };
+
+  useEffect(() => {
+    getData().then((data) => {
+      console.log(data);
+
+      setAllToDos(data);
+      setLoaded(true);
+    });
+  }, []);
+
+  const deleteTodo = (id) => {
+    console.log("delete");
+    firebase
+      .firestore()
+      .collection("todo")
+      .doc(id)
+      .delete()
+      .then(() => {
+        console.log("Document successfully deleted!");
+        window.location.reload();
+      });
+  };
+
+  const updateTodo = (id, todo, date) => {
+    console.log(id);
+    setId(id);
+    setTododata(todo);
+    setDate(date);
+    setModalOpen(true);
+  };
+
+  const modalClose = () => {
+    setModalOpen(false);
+  };
+
+  const SecondaryTextColor = {
+    color: "blue",
+  };
+  const PrimaryTextColor = {
+    color: "black",
+    fontWeight: "bold",
+  };
+
+  return (
+    <div>
+      <UpdateData
+        isModalOpen={isModalOpen}
+        modalClose={modalClose}
+        id={id}
+        todo={tododata}
+        date={date}
+      />
+      {loaded ? (
+        <div className="todo">
+          <Grid container spacing={3}>
+            <List>
+              {allTodos.map((todo) => (
+                <ListItem
+                  style={{ justifyContent: "space-between", width: "110%" }}
+                  key={todo.id}
+                >
+                  <ListItemAvatar>
+                    <Avatar>
+                      <TodayIcon style={{ color: "black" }} />
+                    </Avatar>
+                  </ListItemAvatar>
+                  <ListItemText
+                    primary={todo.data().todo}
+                    secondary={todo.data().date}
+                    secondaryTypographyProps={{ style: SecondaryTextColor }}
+                    primaryTypographyProps={{ style: PrimaryTextColor }}
+                  />
+
+                  <div style={{ paddingLeft: 30 }}>
+                    <Avatar
+                      style={{
+                        backgroundColor: "transparent",
+                        justifyContent: "space-between",
+                        width: 50,
+                      }}
+                    >
+                      <EditIcon
+                        onClick={() =>
+                          updateTodo(
+                            todo.id,
+                            todo.data().todo,
+                            todo.data().date
+                          )
+                        }
+                        fontSize="small"
+                        color="primary"
+                      />
+
+                      <DeleteIcon
+                        onClick={() => deleteTodo(todo.id)}
+                        fontSize="small"
+                        color="secondary"
+                      />
+                    </Avatar>
+                  </div>
+                </ListItem>
+              ))}
+            </List>
+          </Grid>
+        </div>
+      ) : null}
+    </div>
+  );
+}
+
+
+
+
+
+#UpdateData.js
+
+import React, { useState } from "react";
+import {
+  Dialog,
+  DialogTitle,
+  TextField,
+  DialogContent,
+  DialogContentText,
+  DialogActions,
+  Button,
+} from "@material-ui/core";
+import firebase from "firebase";
+import moment from "moment";
+
+export default function UpdateData(props) {
+  const [value, setValue] = useState();
+
+  const updateTodoFirebase = (id) => {
+    firebase
+      .firestore()
+      .collection("todo")
+      .doc(id)
+      .update({
+        todo: value,
+        date: moment().format("MMMM Do YYYY, h:mm:ss a"),
+      })
+      .then(() => {
+        console.log("Document successfully updated!");
+        window.location.reload();
+      });
+  };
+
+  const updatedData = (event) => {
+    setValue(event.target.value);
+  };
+  return (
+    <div>
+      <Dialog
+        open={props.isModalOpen}
+        onClose={props.modalClose}
+        aria-labelledby="form-dialog-title"
+      >
+        <DialogTitle id="form-dialog-title">You want to Update??</DialogTitle>
+        <DialogContent>
+          <DialogContentText>{props.todo}</DialogContentText>
+          <TextField
+            autoFocus
+            margin="dense"
+            id={props.id}
+            label="Updated Todo"
+            type="text"
+            fullWidth
+            value={value}
+            onChange={updatedData}
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={props.modalClose} color="primary">
+            Discard
+          </Button>
+          <Button onClick={() => updateTodoFirebase(props.id)} color="primary">
+            Done
+          </Button>
+        </DialogActions>
+      </Dialog>
+    </div>
+  );
+}
+
+
+
+
+#app.css
+
+:root{
+  justify-content: center;
+  align-items: center;
+}
+.heading{
+  text-align: center;
+  margin-top: 40px;
+}
+.todoApp {
+  text-align: center;
+  align-items: baseline;
+  margin:100px 150px;
+  padding:50px;
+  border:3px solid black;
+}
+
+
+.todo {
+  align-items: center;
+  text-align: center;
+  margin-left: 33.33%;
+}
+
+
+
+
+#index.css 
+
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background:linear-gradient(45deg,rgb(255, 166, 0),red);
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
+}
 
 
 
